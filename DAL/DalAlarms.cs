@@ -93,5 +93,6 @@ public sealed class DalAlarms
                 }
             }
         });
+        OnSaved?.Invoke(this, alarm);
     }
 }
