@@ -1,0 +1,26 @@
+﻿<UserControl x:Class="AlarmClock.Display.TimeDisplay"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:ctrls="clr-namespace:AlarmClock.Display"
+             x:Name="root"
+             Width="700" Height="220"
+             SnapsToDevicePixels="True">
+    <Grid >
+        <!-- Horizontal layout: HH:MM -->
+        <StackPanel Orientation="Horizontal"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center">
+
+            <!-- Hours -->
+            <ctrls:SevenSegmentDisplay x:Name="H1" Width="140" Height="210" Margin="0,0,12,0"/>
+            <ctrls:SevenSegmentDisplay x:Name="H2" Width="140" Height="210" Margin="0,0,10,0"/>
+
+            <!-- Colon -->
+            <ctrls:ColonDisplay x:Name="Colon" Width="40" Height="210" Margin="0,0,10,0"/>
+
+            <!-- Minutes -->
+            <ctrls:SevenSegmentDisplay x:Name="M1" Width="140" Height="210" Margin="0,0,12,0"/>
+            <ctrls:SevenSegmentDisplay x:Name="M2" Width="140" Height="210"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

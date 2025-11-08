@@ -1,0 +1,74 @@
+﻿<UserControl x:Class="AlarmClock.Display.SevenSegmentDisplay"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:ctrls="clr-namespace:AlarmClock.Display"
+             x:Name="root"
+             Width="120" Height="180"
+             SnapsToDevicePixels="True">
+    <!-- Viewbox keeps aspect and scales the 100x180 design neatly -->
+    <Viewbox Stretch="Fill">
+        <Canvas Width="128" Height="218" Background="{x:Null}">
+            <!-- Base design units: 
+                 Horizontal segments: Length=80, Thickness=20  -> control W=80 H=20
+                 Vertical segments:   Length=80, Thickness=20  -> control W=20 H=80 (Angle=90)
+                 Bevel=8 for nice cut ends.
+                 Coordinates chosen to look like a proper LED digit. -->
+
+            <!-- A (top) -->
+            <ctrls:LedSegment x:Name="A"
+                              Length="80" Thickness="20" Bevel="8" Angle="0"
+                              Width="80" Height="20"
+                              Canvas.Left="24" Canvas.Top="10" />
+
+            <!-- B (top-right) -->
+            <ctrls:LedSegment x:Name="B"
+                              Length="80" Thickness="20" Bevel="8" Angle="90"
+                              Width="20" Height="80"
+                              Canvas.Left="98" Canvas.Top="24" />
+
+            <!-- C (bottom-right) -->
+            <ctrls:LedSegment x:Name="C"
+                              Length="80" Thickness="20" Bevel="8" Angle="90"
+                              Width="20" Height="80"
+                              Canvas.Left="98" Canvas.Top="112" />
+
+            <!-- D (bottom) -->
+            <ctrls:LedSegment x:Name="D"
+                              Length="80" Thickness="20" Bevel="8" Angle="0"
+                              Width="80" Height="20"
+                              Canvas.Left="24" Canvas.Top="188" />
+
+            <!-- E (bottom-left) -->
+            <ctrls:LedSegment x:Name="E"
+                              Length="80" Thickness="20" Bevel="8" Angle="90"
+                              Width="20" Height="80"
+                              Canvas.Left="10" Canvas.Top="112" />
+
+            <!-- F (top-left) -->
+            <ctrls:LedSegment x:Name="F"
+                              Length="80" Thickness="20" Bevel="8" Angle="90"
+                              Width="20" Height="80"
+                              Canvas.Left="10" Canvas.Top="24" />
+
+            <!-- G (middle) -->
+            <ctrls:LedSegment x:Name="G"
+                              Length="80" Thickness="20" Bevel="8" Angle="0"
+                              Width="80" Height="20"
+                              Canvas.Left="24" Canvas.Top="98" />
+
+            <!-- Decimal point (bottom-right) -->
+            <Ellipse x:Name="DP"
+                     Width="16" Height="16"
+                     Canvas.Left="116" Canvas.Top="190"
+                     Fill="{Binding OffBrush, ElementName=A}">
+                <Ellipse.Effect>
+                    <DropShadowEffect x:Name="DPGlow"
+                                      ShadowDepth="0"
+                                      BlurRadius="18"
+                                      Opacity="0"
+                                      Color="#00FFFFFF"/>
+                </Ellipse.Effect>
+            </Ellipse>
+        </Canvas>
+    </Viewbox>
+</UserControl>

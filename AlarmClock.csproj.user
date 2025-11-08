@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup />
+  <ItemGroup>
+    <ApplicationDefinition Update="App.xaml">
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Display\AlarmIndicator.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Display\ClockButton.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Display\ColonDisplay.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Display\LedSegment.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Display\SevenSegmentDisplay.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Display\TimeDisplay.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Display\AlarmIndicator.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Display\ClockButton.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Display\ColonDisplay.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Display\LedSegment.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Display\SevenSegmentDisplay.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Display\TimeDisplay.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="MainWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+</Project>

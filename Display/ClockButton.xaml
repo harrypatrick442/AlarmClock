@@ -1,0 +1,117 @@
+﻿<UserControl x:Class="AlarmClock.Display.ClockButton"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Name="root"
+             Width="180" Height="56"
+             SnapsToDevicePixels="True"
+             Background="Transparent">
+    <!-- ensures hit testing -->
+    <UserControl.Resources>
+        <ControlTemplate x:Key="CutCornerButtonTemplate" TargetType="Button">
+            <Grid Background="Transparent">
+                <Viewbox Stretch="Fill">
+                    <Canvas Width="200" Height="60">
+                        <!-- Cut-corner shape -->
+                        <Path x:Name="Pad"
+                              Fill="{TemplateBinding Background}"
+                              Stroke="{TemplateBinding BorderBrush}"
+                              StrokeThickness="{TemplateBinding BorderThickness}">
+                            <Path.Data>
+                                <PathGeometry>
+                                    <PathFigure StartPoint="10,0" IsClosed="True">
+                                        <LineSegment Point="190,0"/>
+                                        <LineSegment Point="200,10"/>
+                                        <LineSegment Point="200,50"/>
+                                        <LineSegment Point="190,60"/>
+                                        <LineSegment Point="10,60"/>
+                                        <LineSegment Point="0,50"/>
+                                        <LineSegment Point="0,10"/>
+                                    </PathFigure>
+                                </PathGeometry>
+                            </Path.Data>
+                            <Path.Effect>
+                                <DropShadowEffect Color="#FF3333"
+                                                  ShadowDepth="0"
+                                                  BlurRadius="10"
+                                                  Opacity="0.45"/>
+                            </Path.Effect>
+                        </Path>
+                    </Canvas>
+                </Viewbox>
+
+                <ContentPresenter HorizontalAlignment="Center"
+                                  VerticalAlignment="Center"
+                                  TextElement.FontFamily="Consolas"
+                                  TextElement.FontWeight="Bold"
+                                  TextElement.FontSize="{TemplateBinding FontSize}"
+                                  TextElement.Foreground="{TemplateBinding Foreground}"/>
+            </Grid>
+
+            <!-- Visual states -->
+            <ControlTemplate.Triggers>
+                <!-- Hover -->
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter TargetName="Pad" Property="Fill" Value="#330C0C"/>
+                    <Setter TargetName="Pad" Property="Stroke" Value="#FF3333"/>
+                    <Setter TargetName="Pad" Property="Effect">
+                        <Setter.Value>
+                            <DropShadowEffect Color="#FF5555"
+                                              ShadowDepth="0"
+                                              BlurRadius="14"
+                                              Opacity="0.75"/>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+
+                <!-- Pressed -->
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter TargetName="Pad" Property="Fill" Value="#882222"/>
+                    <Setter TargetName="Pad" Property="Stroke" Value="#FF6666"/>
+                    <Setter TargetName="Pad" Property="Effect">
+                        <Setter.Value>
+                            <DropShadowEffect Color="#FF6666"
+                                              ShadowDepth="0"
+                                              BlurRadius="6"
+                                              Opacity="0.85"/>
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="RenderTransform">
+                        <Setter.Value>
+                            <TranslateTransform Y="1"/>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+
+                <!-- Disabled -->
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter TargetName="Pad" Property="Fill" Value="#180808"/>
+                    <Setter TargetName="Pad" Property="Stroke" Value="#331111"/>
+                    <Setter Property="Foreground" Value="#553333"/>
+                    <Setter TargetName="Pad" Property="Effect">
+                        <Setter.Value>
+                            <DropShadowEffect Color="#331111"
+                                              ShadowDepth="0"
+                                              BlurRadius="4"
+                                              Opacity="0.15"/>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+    </UserControl.Resources>
+
+    <!-- The actual button using our template -->
+    <Button x:Name="PART_Button"
+            Template="{StaticResource CutCornerButtonTemplate}"
+            Background="{Binding ButtonBackground, ElementName=root}"
+            BorderBrush="{Binding ButtonBorderBrush, ElementName=root}"
+            BorderThickness="{Binding ButtonBorderThickness, ElementName=root}"
+            Foreground="{Binding ButtonForeground, ElementName=root}"
+            FontSize="{Binding ButtonFontSize, ElementName=root}"
+            Content="{Binding Text, ElementName=root}"
+            Command="{Binding Command, ElementName=root}"
+            CommandParameter="{Binding CommandParameter, ElementName=root}"
+            Padding="0"
+            PreviewMouseDown="PART_Button_PreviewMouseDown"
+            PreviewMouseUp="PART_Button_PreviewMouseUp"/>
+</UserControl>

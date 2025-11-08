@@ -1,0 +1,52 @@
+﻿<UserControl x:Class="AlarmClock.Display.ColonDisplay"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Name="root"
+             Width="40" Height="180"
+             SnapsToDevicePixels="True">
+    <Grid>
+        <!-- Use a Grid with three rows so dots stay centered -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <!-- top space -->
+            <RowDefinition Height="auto" />
+            <!-- middle -->
+            <RowDefinition Height="*" />
+            <!-- bottom space -->
+        </Grid.RowDefinitions>
+
+        <!-- Top dot -->
+        <Ellipse x:Name="TopDot"
+                 Grid.Row="0"
+                 Width="20" Height="20"
+                 VerticalAlignment="Bottom"
+                 HorizontalAlignment="Center"
+                 Margin="0,0,0,25"
+                 Fill="{Binding OffBrush, ElementName=root}">
+            <Ellipse.Effect>
+                <DropShadowEffect x:Name="TopGlow"
+                                  ShadowDepth="0"
+                                  BlurRadius="18"
+                                  Opacity="0"
+                                  Color="#00FFFFFF"/>
+            </Ellipse.Effect>
+        </Ellipse>
+
+        <!-- Bottom dot -->
+        <Ellipse x:Name="BottomDot"
+                 Grid.Row="2"
+                 Width="20" Height="20"
+                 VerticalAlignment="Top"
+                 HorizontalAlignment="Center"
+                 Margin="0,25,0,0"
+                 Fill="{Binding OffBrush, ElementName=root}">
+            <Ellipse.Effect>
+                <DropShadowEffect x:Name="BottomGlow"
+                                  ShadowDepth="0"
+                                  BlurRadius="18"
+                                  Opacity="0"
+                                  Color="#00FFFFFF"/>
+            </Ellipse.Effect>
+        </Ellipse>
+    </Grid>
+</UserControl>
