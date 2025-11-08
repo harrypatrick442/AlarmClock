@@ -69,6 +69,7 @@ namespace AlarmClock.ViewModels
         public ICommand ClickedHoursCommand { get; }
         public ICommand ClickedMinutesCommand { get; }
         public ICommand ToggleAlarmCommand { get; }
+        public ICommand AlarmOffCommand { get; }
         public ICommand MouseUpHoursCommand { get; }
         public ICommand MouseUpMinutesCommand { get; }
         public ICommand MouseDownHoursCommand { get; }
@@ -86,6 +87,7 @@ namespace AlarmClock.ViewModels
             _timerTimeoutSetAlarmsDueToInactivity = new Timer();
             _timerTimeoutSetAlarmsDueToInactivity.Interval = 10000;
             _timerTimeoutSetAlarmsDueToInactivity.Elapsed += HandlerTimerTimeoutSetAlarmsDueToInactivityElapsed;
+            _timerTimeoutSetAlarmsDueToInactivity.AutoReset = false;
             ReplaceTimeSource(TimeSource.Initialize());
             // Initialize alarms
             var alarms = DalAlarms.Instance
@@ -100,6 +102,7 @@ namespace AlarmClock.ViewModels
 
             // Commands 
             SnoozeCommand = new RelayCommand(_ => Snooze());
+            AlarmOffCommand = new RelayCommand(_ => AlarmDispatcher.Instance.TurnOffAlarm());
             CycleModeCommand = new RelayCommand(_ => CycleMode());
             ClickedHoursCommand = new RelayCommand(_ => ClickedHours());
             ClickedMinutesCommand = new RelayCommand(_ => ClickedMinutes());
