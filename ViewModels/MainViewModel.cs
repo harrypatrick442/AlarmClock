@@ -16,6 +16,7 @@ using Timer = System.Timers.Timer;
 using System.Timers;
 using AlarmClock.Models;
 using AlarmClock.Inputs;
+using AlarmClock.Audio;
 
 namespace AlarmClock.ViewModels
 {
@@ -92,7 +93,7 @@ namespace AlarmClock.ViewModels
             // Initialize alarms
             var alarms = DalAlarms.Instance
                     .GetAll();
-            AlarmDispatcher.Initialize(alarms);
+            AlarmDispatcher.Initialize(alarms, AlarmAudioPlayer.Instance.Play);
             var mapIdToAlarmModel = alarms
                     .ToDictionary(a => a.Id, a => a);
             for (int i = 0; i < alarmCount; i++) {
@@ -101,7 +102,7 @@ namespace AlarmClock.ViewModels
             }
 
             // Commands 
-            SnoozeCommand = new RelayCommand(_ => Snooze());
+            SnoozeCommand = new RelayCommand(_ => AlarmDispatcher.Instance.Snooze());
             AlarmOffCommand = new RelayCommand(_ => AlarmDispatcher.Instance.TurnOffAlarm());
             CycleModeCommand = new RelayCommand(_ => CycleMode());
             ClickedHoursCommand = new RelayCommand(_ => ClickedHours());
@@ -141,9 +142,6 @@ namespace AlarmClock.ViewModels
         {
             ToClockMode();
         }
-
-        private void Snooze() =>
-            System.Media.SystemSounds.Beep.Play();
 
         private void CycleMode()
         {

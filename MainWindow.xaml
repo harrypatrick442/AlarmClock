@@ -6,118 +6,160 @@
         xmlns:ctrls="clr-namespace:AlarmClock.Display"
         mc:Ignorable="d"
         Title="Alarm Clock"
+        WindowStyle="None"
+        ResizeMode="CanResizeWithGrip"
         Background="#111"
+        AllowsTransparency="True"
         Width="1000" Height="480"
-        AllowsTransparency="False"
-        ShowInTaskbar="True"
-        Topmost="True">
+        ShowInTaskbar="True">
 
-    <Grid>
-        <!-- Viewbox ensures everything scales uniformly with the window -->
-        <Viewbox Stretch="Uniform" StretchDirection="Both">
-            <Grid Width="700" Height="500">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <!-- Snooze -->
-                    <RowDefinition Height="Auto"/>
-                    <!-- Time display -->
-                    <RowDefinition Height="Auto"/>
-                    <!-- Alarm indicators -->
-                    <RowDefinition Height="Auto"/>
-                    <!-- Button row -->
-                </Grid.RowDefinitions>
+    <Border BorderBrush="#222" BorderThickness="1" Background="#111">
+        <Grid>
+            <!-- ===== Custom Title Bar ===== -->
+            <Grid Height="32"
+                  Background="#111"
+                  VerticalAlignment="Top"
+                  MouseLeftButtonDown="TitleBar_MouseLeftButtonDown">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
 
-                <!-- Snooze button (large and central) -->
-                <UniformGrid Grid.Row="0"
-                             Rows="1"
-                             Columns="2"
-                             HorizontalAlignment="Center"
-                             Margin="0,25,0,20">
-                    <ctrls:ClockButton Text="SNOOZE"
-                                       Width="220" Height="64"
-                                       Margin="0,0,10,0"
-                                       ButtonFontSize="24"
-                                       Command="{Binding SnoozeCommand}"/>
-                    <ctrls:ClockButton Text="ALARM OFF"
-                                       Width="220" Height="64"
-                                       Margin="10,0,0,0"
-                                       ButtonFontSize="24"
-                                       Command="{Binding AlarmOffCommand}"/>
-                </UniformGrid>
+                <TextBlock Text="ALARM CLOCK"
+                           Foreground="#FF3333"
+                           VerticalAlignment="Center"
+                           Margin="12,0,0,0"
+                           FontFamily="Consolas"
+                           FontWeight="Bold"
+                           FontSize="14"
+                           Opacity="0.8"/>
 
-                <!-- Time display -->
-                <ctrls:TimeDisplay Grid.Row="1"
-                                   Hours="{Binding Hours}"
-                                   Minutes="{Binding Minutes}"
-                                   ColonOn="{Binding ColonOn}"
-                                   NumbersOn="{Binding NumbersOn}"
-                                   OnBrush="#FF3333"
-                                   OffBrush="#220808"
-                                   Width="700"
-                                   Height="220"
-                                   VerticalAlignment="Center"
-                                   HorizontalAlignment="Center"/>
+                <!-- Minimize Button -->
+                <Button Grid.Column="1"
+                        Width="40" Height="28"
+                        Margin="0,2,0,2"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        Foreground="#FF3333"
+                        FontFamily="Consolas"
+                        FontSize="16"
+                        Content="—"
+                        Click="Minimize_Click"
+                        ToolTip="Minimize" />
 
-                <!-- Alarm indicators -->
-                <ItemsControl Grid.Row="2"
-              ItemsSource="{Binding Alarms}"
-              HorizontalAlignment="Center"
-              Margin="0,20,0,10">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <UniformGrid Rows="1" Columns="{Binding Alarms.Count}" />
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <ctrls:AlarmIndicator
-                Number="{Binding Number}"
-                IsIlluminated="{Binding IsIlluminated}"
-                IsEnabled="{Binding IsEnabled}"
-                OnBrush="#FF3333"
-                OffBrush="#220808"/>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-
-
-                <!-- Button row -->
-                <UniformGrid Grid.Row="3"
-                             Rows="1"
-                             Columns="4"
-                             HorizontalAlignment="Center"
-                             Margin="0,10,0,0">
-
-                    <!-- Mode -->
-                    <ctrls:ClockButton Text="{Binding ModeText}"
-                                       Width="120" Height="56"
-                                       Margin="10,0,10,0"
-                                       Command="{Binding CycleModeCommand}"/>
-
-                    <!-- Hour -->
-                    <ctrls:ClockButton Text="HR"
-                                       Width="120" Height="56"
-                                       Margin="10,0,10,0"
-                                       Command="{Binding ClickedHoursCommand}"
-                                       MouseDownCommand="{Binding MouseDownHoursCommand}"
-                                       MouseUpCommand="{Binding MouseUpHoursCommand}"/>
-
-                    <!-- Minute -->
-                    <ctrls:ClockButton Text="MIN"
-                                       Width="120" Height="56"
-                                       Margin="10,0,10,0"
-                                       Command="{Binding ClickedMinutesCommand}"
-                                       MouseDownCommand="{Binding MouseDownMinutesCommand}"
-                                       MouseUpCommand="{Binding MouseUpMinutesCommand}"/>
-
-                    <!-- Set -->
-                    <ctrls:ClockButton Text="SET"
-                                       Width="120" Height="56"
-                                       Margin="10,0,10,0"
-                                       Command="{Binding ToggleAlarmCommand}"/>
-                </UniformGrid>
+                <!-- Maximize / Restore Button -->
+                <Button Grid.Column="2"
+                        Width="40" Height="28"
+                        Margin="0,2,8,2"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        Foreground="#FF3333"
+                        FontFamily="Consolas"
+                        FontSize="14"
+                        Content="▢"
+                        Click="Maximize_Click"
+                        ToolTip="Maximize / Restore" />
             </Grid>
-        </Viewbox>
-    </Grid>
+
+            <!-- ===== Main Clock UI ===== -->
+            <Grid Margin="0,32,0,0">
+                <Viewbox Stretch="Uniform" StretchDirection="Both">
+                    <Grid Width="700" Height="500">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <!-- Snooze buttons -->
+                        <UniformGrid Grid.Row="0"
+                                     Rows="1"
+                                     Columns="2"
+                                     HorizontalAlignment="Center"
+                                     Margin="0,25,0,20">
+                            <ctrls:ClockButton Text="SNOOZE"
+                                               Width="220" Height="64"
+                                               Margin="0,0,10,0"
+                                               ButtonFontSize="24"
+                                               Command="{Binding SnoozeCommand}"/>
+                            <ctrls:ClockButton Text="ALARM OFF"
+                                               Width="220" Height="64"
+                                               Margin="10,0,0,0"
+                                               ButtonFontSize="24"
+                                               Command="{Binding AlarmOffCommand}"/>
+                        </UniformGrid>
+
+                        <!-- Time display -->
+                        <ctrls:TimeDisplay Grid.Row="1"
+                                           Hours="{Binding Hours}"
+                                           Minutes="{Binding Minutes}"
+                                           ColonOn="{Binding ColonOn}"
+                                           NumbersOn="{Binding NumbersOn}"
+                                           OnBrush="#FF3333"
+                                           OffBrush="#220808"
+                                           Width="700"
+                                           Height="220"
+                                           VerticalAlignment="Center"
+                                           HorizontalAlignment="Center"/>
+
+                        <!-- Alarm indicators -->
+                        <ItemsControl Grid.Row="2"
+                                      ItemsSource="{Binding Alarms}"
+                                      HorizontalAlignment="Center"
+                                      Margin="0,20,0,10">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <UniformGrid Rows="1" Columns="{Binding Alarms.Count}" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <ctrls:AlarmIndicator
+                                        Number="{Binding Number}"
+                                        IsIlluminated="{Binding IsIlluminated}"
+                                        IsEnabled="{Binding IsEnabled}"
+                                        OnBrush="#FF3333"
+                                        OffBrush="#220808"/>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+
+                        <!-- Button row -->
+                        <UniformGrid Grid.Row="3"
+                                     Rows="1"
+                                     Columns="4"
+                                     HorizontalAlignment="Center"
+                                     Margin="0,10,0,0">
+                            <ctrls:ClockButton Text="{Binding ModeText}"
+                                               Width="120" Height="56"
+                                               Margin="10,0,10,0"
+                                               Command="{Binding CycleModeCommand}"/>
+
+                            <ctrls:ClockButton Text="HR"
+                                               Width="120" Height="56"
+                                               Margin="10,0,10,0"
+                                               Command="{Binding ClickedHoursCommand}"
+                                               MouseDownCommand="{Binding MouseDownHoursCommand}"
+                                               MouseUpCommand="{Binding MouseUpHoursCommand}"/>
+
+                            <ctrls:ClockButton Text="MIN"
+                                               Width="120" Height="56"
+                                               Margin="10,0,10,0"
+                                               Command="{Binding ClickedMinutesCommand}"
+                                               MouseDownCommand="{Binding MouseDownMinutesCommand}"
+                                               MouseUpCommand="{Binding MouseUpMinutesCommand}"/>
+
+                            <ctrls:ClockButton Text="SET"
+                                               Width="120" Height="56"
+                                               Margin="10,0,10,0"
+                                               Command="{Binding ToggleAlarmCommand}"/>
+                        </UniformGrid>
+                    </Grid>
+                </Viewbox>
+            </Grid>
+        </Grid>
+    </Border>
 </Window>

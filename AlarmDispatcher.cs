@@ -13,9 +13,10 @@ namespace AlarmClock
                 return _Instance; 
             } 
         }
-        public static AlarmDispatcher Initialize(ICollection<Alarm> alarms) {
+        public static AlarmDispatcher Initialize(ICollection<Alarm> alarms, 
+            params Action<CancellationToken>[] doAlarms) {
             if (_Instance != null) throw new Exception("Already initialized");
-            _Instance = new AlarmDispatcher(alarms);
+            _Instance = new AlarmDispatcher(alarms, doAlarms);
             return _Instance;
         }
         private Dictionary<int, Alarm> _MapIdToEntity;
@@ -24,7 +25,7 @@ namespace AlarmClock
         private const int SNOOZE_INTERVAL = 15 * 60 * 1000;
         private Action<CancellationToken>[] _DoAlarms;
         private CancellationTokenSource? _CurrentCancellationTokenSource;
-        private AlarmDispatcher(ICollection<Alarm> alarms, params Action<CancellationToken>[] doAlarms) {
+        private AlarmDispatcher(ICollection<Alarm> alarms, Action<CancellationToken>[] doAlarms) {
             _DoAlarms = doAlarms;
             _MapIdToEntity = alarms.ToDictionary(a => a.Id, a => a);
             TimeSource.Instance.TimeChanged += HandleTimeChanged;
