@@ -1,15 +1,8 @@
 ﻿using AlarmClock.Models;
-using Core.DTOs;
 using Database;
 using Microsoft.Data.Sqlite;
-using System;
-using System.Collections.Generic;
 using System.Data;
 using System.IO;
-using System.Linq;
-using System.Security.Claims;
-using static ManagedCuda.NPP.NPPNativeMethods.NPPi;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 public sealed class DalAlarms
 {
