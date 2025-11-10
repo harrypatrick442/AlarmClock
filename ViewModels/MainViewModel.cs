@@ -17,6 +17,7 @@ using System.Timers;
 using AlarmClock.Models;
 using AlarmClock.Inputs;
 using AlarmClock.Audio;
+using AlarmClock.Electronics;
 
 namespace AlarmClock.ViewModels
 {
@@ -93,7 +94,8 @@ namespace AlarmClock.ViewModels
             // Initialize alarms
             var alarms = DalAlarms.Instance
                     .GetAll();
-            AlarmDispatcher.Initialize(alarms, AlarmAudioPlayer.Instance.Play);
+            AlarmDispatcher.Initialize(alarms, AlarmAudioPlayer.Instance.Play,
+                AlarmTapoDevices.Instance.DoAlarm);
             var mapIdToAlarmModel = alarms
                     .ToDictionary(a => a.Id, a => a);
             for (int i = 0; i < alarmCount; i++) {

@@ -23,6 +23,9 @@ namespace AlarmClock.Audio
             var handle = SystemVolumeController.TemporarilyAdjust();
             cancellationToken.Register(()=>handle.Dispose());
             handle.SlowlyCrankUp();
+            if (cancellationToken.IsCancellationRequested) {
+                handle.Dispose();
+            }
         }
     }
 }

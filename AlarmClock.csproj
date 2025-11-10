@@ -16,10 +16,12 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.10" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.10" />
     <PackageReference Include="NAudio" Version="2.2.1" />
+    <PackageReference Include="TapoConnect" Version="3.2.4" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\shared-public\DatabaseCore\DatabaseCore.csproj" />
+    <ProjectReference Include="..\shared-public\TapoDevices\TapoDevices.csproj" />
   </ItemGroup>
 
 </Project>
